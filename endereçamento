@@ -1,0 +1,22 @@
+ip_plan:
+  management_vlan: 10
+  data_vlan: 20
+  storage_vlan: 30
+
+  switches:
+    - name: S05-SW-C9288
+      ip: 10.0.10.5
+    - name: S06-SW-C9288
+      ip: 10.0.10.6
+    - name: S08-SW-C9288
+      ip: 10.0.10.8
+    - name: S17-SW-C9288
+      ip: 10.0.10.17
+
+  storages:
+    - name: S08-STOR-5000
+      mgmt_ip: 10.0.30.8
+      data_ip: 10.0.20.8
+    - name: S17-STOR-5000
+      mgmt_ip: 10.0.30.17
+      data_ip: 10.0.20.17
