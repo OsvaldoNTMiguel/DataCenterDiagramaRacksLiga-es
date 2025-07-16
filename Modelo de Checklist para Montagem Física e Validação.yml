@@ -1,0 +1,23 @@
+checklist:
+  fase_1_montagem_fisica:
+    - Verificar disponibilidade e integridade dos racks S05, S06, S08 e S17
+    - Instalar e fixar os switches nas posições U41-U40
+    - Instalar servidores nas posições indicadas por rack (ex: U3-U18)
+    - Instalar unidades de armazenamento (STOR-5000) na base dos racks (U2)
+    - Garantir etiquetagem física dos cabos e portas (ex: fibra, Ethernet)
+    - Conectar alimentação elétrica com redundância (PDU A e B)
+    - Verificar consumo de energia por rack (comparar com valores esperados)
+
+  fase_2_conectividade_logica:
+    - Conectar os switches SAN conforme definido (S05-SAN → S06/S08/S17)
+    - Interligar switches C9288 (ACC) entre si para backbone/core
+    - Conectar servidores aos switches de rede e SAN corretamente
+    - Conectar storages (STOR-5000) aos servidores definidos
+
+  fase_3_validação_e_teste:
+    - Validar boot e POST de todos os servidores
+    - Confirmar conectividade IP entre switches e hosts
+    - Verificar visibilidade de LUNs nos hosts (via iSCSI ou FC)
+    - Executar testes de throughput (iperf, fio)
+    - Validar alarmes e alertas nos equipamentos de rede e storage
+    - Registrar topologia final (fotos + diagrama lógico atualizado)
