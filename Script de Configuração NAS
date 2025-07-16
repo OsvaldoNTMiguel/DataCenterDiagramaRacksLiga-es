@@ -1,0 +1,14 @@
+# Instalar o NFS server
+sudo apt update && sudo apt install -y nfs-kernel-server
+
+# Criar diretório compartilhado
+sudo mkdir -p /srv/nfs/projects
+sudo chown nobody:nogroup /srv/nfs/projects
+sudo chmod 777 /srv/nfs/projects
+
+# Editar exportações
+echo "/srv/nfs/projects 10.0.20.0/24(rw,sync,no_subtree_check)" | sudo tee -a /etc/exports
+
+# Reiniciar serviço
+sudo exportfs -a
+sudo systemctl restart nfs-kernel-server
