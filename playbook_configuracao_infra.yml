@@ -1,0 +1,111 @@
+---
+- name: Configurar Switch Cisco (Core)
+  hosts: switches
+  gather_facts: no
+  connection: network_cli
+  vars:
+    ansible_network_os: cisco.ios.ios
+  tasks:
+    - name: Configurar hostname e VLANs
+      cisco.ios.ios_config:
+        lines:
+          - hostname {{ inventory_hostname }}
+          - vlan 10
+          - name MGMT
+          - vlan 20
+          - name DATA
+          - vlan 30
+          - name STORAGE
+          - interface Vlan10
+          - ip address 10.0.10.{{ switch_id }} 255.255.255.0
+          - no shutdown
+          - interface Vlan20
+          - ip address 10.0.20.{{ switch_id }} 255.255.255.0
+          - no shutdown
+          - interface Vlan30
+          - ip address 10.0.30.{{ switch_id }} 255.255.255.0
+          - no shutdown
+
+    - name: Configurar interface de uplink
+      cisco.ios.ios_config:
+        lines:
+          - interface Gig1/1
+          - description Uplink-to-Core
+          - switchport mode trunk
+          - switchport trunk allowed vlan 10,20,30
+          - no shutdown
+
+    - name: Configurar interface de servidor
+      cisco.ios.ios_config:
+        lines:
+          - interface Gig1/10
+          - description Link-to-Server
+          - switchport mode access
+          - switchport access vlan 20
+          - spanning-tree portfast
+          - no shutdown
+
+- name: Configurar Servidor SAN (Zoning Simples)
+  hosts: san
+  become: yes
+  tasks:
+    - name: Criar zone via script shell
+      shell: |
+        echo "zonecreate ZONE_S05_S08STOR, S05-SERVER-01:WWPN; S08-STOR:WWPN" >> /tmp/fabric_cfg.txt
+        echo "cfgcreate FABRIC_CFG, ZONE_S05_S08STOR" >> /tmp/fabric_cfg.txt
+        echo "cfgenable FABRIC_CFG" >> /tmp/fabric_cfg.txt
+        echo "cfgsave" >> /tmp/fabric_cfg.txt
+
+- name: Configurar NAS (NFS e Samba)
+  hosts: nas
+  become: yes
+  tasks:
+    - name: Instalar pacotes NFS
+      apt:
+        name: nfs-kernel-server
+        state: present
+        update_cache: yes
+
+    - name: Criar diretório NFS
+      file:
+        path: /srv/nfs/projects
+        state: directory
+        mode: '0777'
+
+    - name: Configurar exportações NFS
+      lineinfile:
+        path: /etc/exports
+        line: "/srv/nfs/projects 10.0.20.0/24(rw,sync,no_subtree_check)"
+        create: yes
+
+    - name: Reiniciar NFS
+      service:
+        name: nfs-kernel-server
+        state: restarted
+
+    - name: Instalar Samba
+      apt:
+        name: samba
+        state: present
+        update_cache: yes
+
+    - name: Criar diretório Samba
+      file:
+        path: /srv/smb/shared
+        state: directory
+        mode: '0777'
+
+    - name: Adicionar configuração ao smb.conf
+      blockinfile:
+        path: /etc/samba/smb.conf
+        block: |
+          [Shared]
+          path = /srv/smb/shared
+          read only = no
+          browsable = yes
+          guest ok = yes
+
+    - name: Reiniciar Samba
+      service:
+        name: smbd
+        state: restarted
