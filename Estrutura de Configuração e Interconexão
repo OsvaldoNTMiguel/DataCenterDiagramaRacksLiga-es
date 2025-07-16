@@ -1,0 +1,23 @@
+rack_layout:
+  S05:
+    u_positions:
+      41: S05-SAN
+      40: S05-SW-C9288
+      18-9: [S05-SERVER-10, ..., S05-SERVER-01]
+  S06:
+    u_positions:
+      41: S06-SAN
+      40: S06-SW-C9288
+      18-9: [S06-SERVER-10, ..., S06-SERVER-01]
+  S08:
+    u_positions:
+      41: S08-SAN
+      40: S08-SW-C9288
+      3: S08-SERVER-01
+      2: S08-STOR-5000
+      1: S08-DPA3210
+  S17:
+    u_positions:
+      41: S17-SW-C9288
+      3-7: [S17-SERVER-01, ..., S17-SERVER-05]
+      2: S17-STOR-5000
