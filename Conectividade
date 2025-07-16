@@ -1,0 +1,27 @@
+cabling:
+  san_links:
+    - from: S05-SAN
+      to: [S05-SERVER-01, S06-SERVER-01, S08-SERVER-01, S17-SERVER-01]
+    - from: S06-SAN
+      to: [S05-SERVER-02, S08-SERVER-02]
+    - from: S08-SAN
+      to: [S05-SERVER-03, S17-SERVER-03]
+  backbone_links:
+    - [S05-SW-C9288, S06-SW-C9288]
+    - [S05-SW-C9288, S08-SW-C9288]
+    - [S05-SW-C9288, S17-SW-C9288]
+  server_nic_links:
+    - server: S05-SERVER-01
+      eth0: S05-SW-C9288
+      fc0: S05-SAN
+    - server: S08-SERVER-01
+      eth0: S08-SW-C9288
+      fc0: S08-SAN
+    - server: S17-SERVER-01
+      eth0: S17-SW-C9288
+      fc0: S05-SAN
+  storage_links:
+    - from: S08-STOR-5000
+      to: [S08-SERVER-01, S06-SERVER-01]
+    - from: S17-STOR-5000
+      to: [S17-SERVER-01, S05-SERVER-01]
