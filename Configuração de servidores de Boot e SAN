@@ -1,0 +1,19 @@
+servers:
+  - name: S05-SERVER-01
+    boot_order: [pxe, hdd]
+    management_ip: 10.0.10.101
+    storage:
+      initiator: iqn.2025-07.lab:s05-server-01
+      targets:
+        - S08-STOR-5000
+        - S17-STOR-5000
+    os: Ubuntu 22.04
+    monitoring_agent: Zabbix
+
+  - name: S08-SERVER-01
+    boot_order: [pxe, hdd]
+    management_ip: 10.0.10.108
+    storage:
+      initiator: iqn.2025-07.lab:s08-server-01
+      targets: [S08-STOR-5000]
+    os: RockyLinux 9
