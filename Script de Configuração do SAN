@@ -1,0 +1,10 @@
+# Login via CLI
+connect
+# Criar Zone para Servidor e Storage
+zonecreate "ZONE_S05_S08STOR", "S05-SERVER-01:WWPN; S08-STOR-5000:WWPN"
+zoneadd "ZONE_S05_S08STOR", "S06-SERVER-01:WWPN"
+cfgcreate "FABRIC_CFG", "ZONE_S05_S08STOR"
+cfgenable "FABRIC_CFG"
+cfgsave
+# Zoning dinâmico (opcional)
+zoneshow
