@@ -1,0 +1,22 @@
+# Instalar Samba
+sudo apt update && sudo apt install -y samba
+
+# Criar diretório compartilhado
+sudo mkdir -p /srv/smb/shared
+sudo chmod 777 /srv/smb/shared
+
+# Adicionar entrada no smb.conf
+cat <<EOF | sudo tee -a /etc/samba/smb.conf
+
+[Shared]
+   path = /srv/smb/shared
+   read only = no
+   browsable = yes
+   guest ok = yes
+EOF
+
+# Criar usuário (opcional)
+sudo smbpasswd -a admin
+
+# Reiniciar serviço
+sudo systemctl restart smbd
