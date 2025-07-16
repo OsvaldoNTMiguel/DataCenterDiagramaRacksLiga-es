@@ -1,0 +1,20 @@
+switch_config_template:
+  hostname: <switch-name>
+  vlans:
+    - id: 10
+      name: MGMT
+    - id: 20
+      name: DATA
+    - id: 30
+      name: STORAGE
+  interfaces:
+    - name: eth1/1
+      description: uplink to core
+      mode: trunk
+      vlans: [10, 20, 30]
+    - name: eth1/2
+      description: downlink to server X
+      mode: access
+      vlan: 20
+  spanning_tree: enabled
+  lacp: enabled
