@@ -1,0 +1,82 @@
+racks:
+  - name: S05
+    devices:
+      - name: S05-SAN
+        type: SAN Switch
+        u_position: 41
+        power_w: 42
+        connections: [S06-SERVER-01, S08-SERVER-01, S17-SERVER-01]
+      - name: S05-SW-C9288 (ACC)
+        type: Core Switch
+        u_position: 40
+        power_w: 41
+        connections: [S06-SW-C9288, S08-SW-C9288, S17-SW-C9288]
+      - name: S05-SERVER-01
+        type: Server
+        u_position: 3
+        power_w: 12
+        connections: [S05-SAN, S05-SW-C9288]
+      - name: S05-SERVER-10
+        type: Server
+        u_position: 18
+        power_w: 18
+        connections: [S05-SAN, S05-SW-C9288]
+
+  - name: S06
+    devices:
+      - name: S06-SAN
+        type: SAN Switch
+        u_position: 41
+        power_w: 42
+        connections: [S05-SERVER-01, S08-SERVER-02]
+      - name: S06-SW-C9288 (ACC)
+        type: Core Switch
+        u_position: 40
+        power_w: 41
+        connections: [S05-SW-C9288, S08-SW-C9288, S17-SW-C9288]
+      - name: S06-SERVER-01
+        type: Server
+        u_position: 3
+        power_w: 10
+        connections: [S06-SAN, S06-SW-C9288]
+
+  - name: S08
+    devices:
+      - name: S08-SAN
+        type: SAN Switch
+        u_position: 41
+        power_w: 42
+        connections: [S05-SERVER-01, S06-SERVER-01]
+      - name: S08-SW-C9288 (ACC)
+        type: Core Switch
+        u_position: 40
+        power_w: 41
+        connections: [S05-SW-C9288, S06-SW-C9288, S17-SW-C9288]
+      - name: S08-STOR-5000 V6
+        type: Storage
+        u_position: 2
+        power_w: 6
+        connections: [S08-SERVER-01, S05-SAN]
+      - name: S08-SERVER-01
+        type: Server
+        u_position: 3
+        power_w: 10
+        connections: [S08-STOR-5000 V6, S08-SAN]
+
+  - name: S17
+    devices:
+      - name: S17-SW-C9288 (ACC)
+        type: Core Switch
+        u_position: 40
+        power_w: 41
+        connections: [S05-SW-C9288, S06-SW-C9288, S08-SW-C9288]
+      - name: S17-STOR-5000 V6
+        type: Storage
+        u_position: 2
+        power_w: 6
+        connections: [S17-SERVER-01, S05-SAN]
+      - name: S17-SERVER-01
+        type: Server
+        u_position: 3
+        power_w: 12
+        connections: [S17-STOR-5000 V6, S17-SW-C9288]
