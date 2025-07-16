@@ -1,0 +1,17 @@
+monitoring:
+  agents:
+    - type: Zabbix
+      target_hosts:
+        - S05-SERVER-01
+        - S06-SERVER-01
+        - S08-SERVER-01
+        - S17-SERVER-01
+    - type: SNMP
+      devices:
+        - all switches
+        - all storages
+  alerting:
+    - rule: Server down > 5min
+      action: Notify NOC
+    - rule: Storage latency > 10ms
+      action: Escalate to Tier 2
